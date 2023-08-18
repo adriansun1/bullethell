@@ -34,10 +34,10 @@ class Player extends Ship {
 
     // Check for keypresses
     controls() {
-        // Fire weapon (Z key or B key)
-        if (keyIsDown(90) || keyIsDown(66)) this.fire();
+        // Fire weapon (space key)
+        if (keyIsDown(32)) this.fire();
         
-        // Movement (arrow keys)
+        // Movement (arrow keys, wasd)
         let diag = this.speed / sqrt(2);
         if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
             if (keyIsDown(UP_ARROW) || keyIsDown(87)) {

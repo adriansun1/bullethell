@@ -22,15 +22,9 @@ class Starfield {
     // Render and update each star
     display() {
         // Lerp to proper colors
-        if (blackStarfield) {
-            this.alpha = 127;
-            this.bg = color(0);
-            this.color = color(255);
-        } else {
-            this.alpha = lerp(this.alpha, curLevel.alpha, STARFIELD_LERP);
-            this.bg = lerpColor(this.bg, color(curLevel.bg), STARFIELD_LERP);
-            this.color = lerpColor(this.color, color(curLevel.color), STARFIELD_LERP);
-        }
+        this.alpha = lerp(this.alpha, curLevel.alpha, STARFIELD_LERP);
+        this.bg = lerpColor(this.bg, color(curLevel.bg), STARFIELD_LERP);
+        this.color = lerpColor(this.color, color(curLevel.color), STARFIELD_LERP);
 
         // Skip rendering stars if low graphics mode
         if (!showStars) return;

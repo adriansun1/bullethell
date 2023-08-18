@@ -54,7 +54,7 @@ ENEMY.bomber = {
     onKilled() {
         addScore(this.points);
         emitBullets(this.pos.x, this.pos.y, random(360), [0, 60, 120, 180, 240, 300], 5, 5, BULLET.basic);
-        this.dropItem();
+        // this.dropItem();
         this.explode();
     }
 };
@@ -97,7 +97,7 @@ ENEMY.ricochet = {
     onKilled() {
         addScore(this.points);
         emitBullets(this.pos.x, this.pos.y, random(360), [0, 45, 90, 135, 180, 225, 270, 315], 5, 5, BULLET.needle);
-        this.dropItem();
+        // this.dropItem();
         this.explode();
     }
 };
@@ -155,7 +155,7 @@ ENEMY.splitter = {
     onKilled() {
         addScore(this.points);
         emitBullets(this.pos.x, this.pos.y, random(360), [0, 60, 120, 180, 240, 300], 4, 4, BULLET.basic);
-        this.dropItem();
+        // this.dropItem();
         this.explode();
     }
 };

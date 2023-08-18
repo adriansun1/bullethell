@@ -1,17 +1,17 @@
 // Config
-const BOMB_COUNT = 2;
+const BOMB_COUNT = 0;
 const BOMB_FLASH_DURATION = 5;
 const BOMBS_PER_LEVEL = 1;
 const BOSS_GRACE_PERIOD = 120;
 const BOSS_SPAWN_DELAY = 120;
 const INVULN_TIME = 20;
-let   MAP_HEIGHT = 650;
+let   MAP_HEIGHT = 850;
 const MODEL_LINE_ALPHA = 127;
 const NUM_STARS = 300;
-const PLAYER_FIRE_RATE = 8;
-const PLAYER_HP = 7;
+const PLAYER_FIRE_RATE = 12;
+const PLAYER_HP = 2;
 const PLAYER_RADIUS = 6;
-const PLAYER_SPEED = 4;
+const PLAYER_SPEED = 6;
 const SCORE_UPDATE_SPEED = 4;
 const SLOWDOWN_ALPHA = 95;
 const SLOWDOWN_ALPHA_FULL = 127;
@@ -27,6 +27,11 @@ const WORLD_CEILING = -50;
 // Background
 let starfield;
 
+// Sprites
+let jet;
+let enemyJet;
+let bomber;
+
 // Cooldowns
 let bossTime;
 let flashTime;
@@ -39,11 +44,10 @@ let avgFPS = 0;
 let numFPS = 0;
 
 // Debug mode
-let blackStarfield = false;
 let lowGraphics = false;
 let showFPS = false;
 let showHitboxes = false;
-let showStars = true;
+let showStars = false;
 
 // Entities
 let boss;
@@ -275,7 +279,7 @@ function status() {
 // Draw player bombs
 function uiBombs() {
     for (let i = 0; i < bombs; i++) {
-        drawBomb(20 + 30*i, height - UI_PANEL_HEIGHT + 60);
+        drawBomb(20 + 30*i, height - UI_PANEL_HEIGHT + 20);
     }
 }
 
@@ -283,23 +287,16 @@ function uiBombs() {
 function uiHealth() {
     let empty = pl.maxHp - (pl.hp - 1);
     for (let i = pl.maxHp; i >= 0; i--) {
-        drawHeart(20 + 30*i, height - UI_PANEL_HEIGHT + 20, --empty > 0);
+        drawHeart(20 + 30*i, height - UI_PANEL_HEIGHT + 60, --empty > 0);
     }
 }
 
 // Draw the UI panel
 function uiPanel() {
-    // Draw grey rectangle
-    fill(48);
-    stroke(241, 196, 15);
-    rectMode(CORNER);
-    rect(0, height - UI_PANEL_HEIGHT, width, UI_PANEL_HEIGHT);
-
     // Draw all UI panel elements
     strokeWeight(2);
     uiBombs();
     uiHealth();
-    uiSlowdown();
     strokeWeight(1);
 }
 
@@ -345,26 +342,6 @@ function updateScore() {
     }
 }
 
-// Use a bomb powerup
-function useBomb() {
-    if (bombs > 0 && !paused) {
-        bombs--;
-        bullets = [];
-        pl.invulnTime = INVULN_TIME;
-        flashTime = BOMB_FLASH_DURATION;
-    }
-}
-
-// Use a slowdown powerup
-function useSlowdown() {
-    if (nextSlowdownTime === 0 && !paused) {
-        slowdownReady = false;
-        slowTime = SLOWDOWN_DURATION;
-        nextSlowdownTime = SLOWDOWN_WAIT_NEXT;
-    }
-}
-
-
 /* Main p5.js functions */
 
 function setup() {
@@ -372,7 +349,7 @@ function setup() {
     let maxSize = MAP_HEIGHT + UI_PANEL_HEIGHT + 2;
     let h = windowHeight > maxSize ? maxSize : windowHeight;
     MAP_HEIGHT = h - UI_PANEL_HEIGHT - 2;
-    let c = createCanvas(600, h - 2);
+    let c = createCanvas(1000, h - 2);
     c.parent('game');
 
     // Configure p5.js
@@ -382,14 +359,44 @@ function setup() {
     // Start background starfield
     starfield = new Starfield(NUM_STARS, STARFIELD_SPEED);
 
+    // jet = loadImage('../assets/jet.webp');
+    jet = loadImage('../assets/jeta.png');
+    enemyJet = loadImage('../assets/russia2.webp');
+    enemyJet1 = loadImage('../assets/russia.png');
+    bomber = loadImage('../assets/bomber.webp');
+    canyon = loadImage('../assets/canyon_placeholder.png')
+
     // Begin level
     resetGame();
+}
+
+let yOffset = 0;
+function drawBackground(){
+    const scrollSpeed = 4;
+    background(0); // Clear the screen
+
+    // Calculate the new y-offset for the background
+    yOffset = yOffset + scrollSpeed;
+    
+    const spacing = canyon.height ;
+    // Wrap the y-offset if it goes beyond the image height
+    if (yOffset > (spacing)) {
+      yOffset = -(spacing);
+    }
+     
+  
+    // Display the scrolling background
+    image(canyon, 0, yOffset + spacing);
+    image(canyon, 0, yOffset);
+    image(canyon, 0, yOffset - spacing);
 }
 
 function draw() {
     // Draw the background and starfield
     flashTime > 0 ? background(255) : background(starfield.bg);
     starfield.display();
+
+    drawBackground();
 
     // Update game status display
     if (!paused) updateScore();
@@ -431,9 +438,6 @@ function draw() {
 }
 
 function keyPressed() {
-    // Use a bomb
-    if (key === 'C' || key === 'M') useBomb();
-
     // Toggle FPS display
     if (key === 'F') {
         showFPS = !showFPS;
@@ -444,25 +448,9 @@ function keyPressed() {
         }
     }
 
-    // Toggle low graphics settings
-    if (key === 'G') {
-        showStars = lowGraphics;
-        lowGraphics = !lowGraphics;
-        if (lowGraphics) ps = [];
-    }
-
     // Toggle hitbox display
     if (key === 'H') showHitboxes = !showHitboxes;
 
     // Pause
     if (key === 'P') paused = !paused;
-
-    // Toggle black starfield
-    if (key === 'T') blackStarfield = !blackStarfield;
-
-    // Use a slowdown
-    if (key === 'X' || key === 'N') useSlowdown();
-
-    // Toggle rendering stars
-    if (key === 'Y') showStars = !showStars;
 }

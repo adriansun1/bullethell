@@ -11,7 +11,7 @@
 /* Colors */
 
 :root {
-    --accent1: #F1C40F;
+    --accent1: #fff;
     --accent2: #37DBD0;
     --bg: #1E003D;
     --fg: #ECF0F1;
@@ -42,7 +42,7 @@ body {
 }
 
 #sidebar {
-    background-color: var(--sidebar);
+    position:absolute;
     display: flex;
     flex-direction: column;
     max-height: 100vh;
@@ -64,7 +64,6 @@ main {
 /* Page content */
 
 canvas {
-    border: 1px solid var(--accent1);
     display: block;
     margin: 0 auto;
 }
@@ -73,6 +72,10 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--accent1);
     line-height: 1.2;
     text-align: center;
+}
+
+p{
+    margin: 2px;
 }
 
 ul {
