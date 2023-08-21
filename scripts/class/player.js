@@ -13,6 +13,7 @@ class Player extends Ship {
 
         // Physics
         this.r = PLAYER_RADIUS;
+        this.d = 'c';
 
         // Stats
         this.fireRate = PLAYER_FIRE_RATE;
@@ -34,12 +35,14 @@ class Player extends Ship {
 
     // Check for keypresses
     controls() {
+        this.d = 'c';
         // Fire weapon (space key)
         if (keyIsDown(32)) this.fire();
-        
+
         // Movement (arrow keys, wasd)
         let diag = this.speed / sqrt(2);
         if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
+            this.d = 'r';
             if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
                 this.vel = createVector(diag, -diag);
             } else if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
@@ -48,6 +51,7 @@ class Player extends Ship {
                 this.vel = createVector(this.speed, 0);
             }
         } else if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
+            this.d = 'l';
             if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
                 this.vel = createVector(-diag, -diag);
             } else if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
@@ -80,8 +84,8 @@ class Player extends Ship {
 
     // Display on the canvas
     display() {
-        this.model(true);
-        
+        this.model(this.d, true);
+
         // Display hitbox
         if (showHitboxes) {
             fill(255, 63);

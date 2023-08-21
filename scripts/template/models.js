@@ -77,52 +77,50 @@ MODEL.particle.square = function () {
 
 // Ship models
 
-MODEL.ship.basic = function (isPlayer) {
+MODEL.ship.basic = function (direction, isPlayer) {
     push()
     translate(this.pos.x, this.pos.y);
     if (isPlayer) {
         rotate(180);
     }
-    image(jet, -25, -25, 50, 50);
+    const model = isPlayer ? basicSprite : basicEnemySprite;
+    image(model, -20, -20, 40, 40);
     pop()
 
 };
 
-// never seen
 MODEL.ship.bomber = function (isPlayer) {
     push()
     translate(this.pos.x, this.pos.y);
-    image(enemyJet1, -25, -25, 50, 50);
+    image(botSprite, -25, -25, 50, 50);
     pop()
 };
 
-// never seen
 MODEL.ship.ricochet = function (isPlayer) {
     push()
     translate(this.pos.x, this.pos.y);
-    image(enemyJet1, -25, -25, 50, 50);
+    image(eagleSprite, -25, -25, 50, 50);
     pop()
 };
 
-// never seen
 MODEL.ship.shotgunner = function (isPlayer) {
     push()
     translate(this.pos.x, this.pos.y);
-    image(enemyJet1, -25, -25, 50, 50);
+    image(bigSprite, -25, -25, 50, 50);
     pop()
 };
 
 MODEL.ship.splitter = function (isPlayer) {
     push()
     translate(this.pos.x, this.pos.y);
-    image(bomber, -25, -25, 50, 50);
+    image(bomberSprite, -25, -25, 50, 50);
     pop()
 };
 
 MODEL.ship.turret = function (isPlayer) {
     push()
     translate(this.pos.x, this.pos.y);
-    image(enemyJet, -25, -25, 50, 50);
+    image(ufoSprite, -20, -20, 40, 40);
     pop()
 };
 

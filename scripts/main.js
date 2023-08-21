@@ -5,7 +5,7 @@ const BOMBS_PER_LEVEL = 1;
 const BOSS_GRACE_PERIOD = 120;
 const BOSS_SPAWN_DELAY = 120;
 const INVULN_TIME = 20;
-let   MAP_HEIGHT = 850;
+let MAP_HEIGHT = 850;
 const MODEL_LINE_ALPHA = 127;
 const NUM_STARS = 300;
 const PLAYER_FIRE_RATE = 12;
@@ -13,6 +13,8 @@ const PLAYER_HP = 2;
 const PLAYER_RADIUS = 6;
 const PLAYER_SPEED = 6;
 const SCORE_UPDATE_SPEED = 4;
+const BASE_SCORE_UPDATE = 30;
+const BASE_SCORE_DUMP = 25;
 const SLOWDOWN_ALPHA = 95;
 const SLOWDOWN_ALPHA_FULL = 127;
 const SLOWDOWN_DT = 0.4;
@@ -38,6 +40,8 @@ let flashTime;
 let nextSlowdownTime;
 let slowTime;
 let spawnTime;
+let baseScoreTime = 0;
+let yOffset = 0;
 
 // Debug measurements
 let avgFPS = 0;
@@ -88,7 +92,7 @@ function bossHealthBar() {
     fill(c);
     noStroke();
     rectMode(CENTER);
-    rect(width/2 - 0.5, 10, h * (width - 200), 10);
+    rect(width / 2 - 0.5, 10, h * (width - 200), 10);
 }
 
 // Calculate FPS and update sidebar
@@ -226,7 +230,7 @@ function setScoreStyle(color, weight) {
 // Spawn a boss
 function spawnBoss() {
     if (curLevel.boss) {
-        boss = new Boss(width/2, WORLD_CEILING);
+        boss = new Boss(width / 2, WORLD_CEILING);
         applyTemplate(boss, BOSS[curLevel.boss]);
         boss.init();
     } else {
@@ -246,7 +250,7 @@ function spawnEnemy() {
     if (!e.spawnAboveMap) {
         e.pos.y = MAP_HEIGHT - WORLD_CEILING;
     }
-    
+
     enemies.push(e);
 }
 
@@ -262,13 +266,12 @@ function spawnItem(x, y) {
 
 // Spawn the player at the correct coords
 function spawnPlayer() {
-    pl = new Player(width/2, MAP_HEIGHT * 3/4);
+    pl = new Player(width / 2, MAP_HEIGHT * 3 / 4);
     pl.init();
 }
 
 // Update game status on displays
 function status() {
-    document.getElementById('level').innerHTML = 'Level: ' + (level + 1);
     document.getElementById('score').innerHTML = 'Score: ' + score;
     document.getElementById('scoremult').innerHTML = 'Multiplier: ' + scoreMult + 'x';
 
@@ -279,7 +282,7 @@ function status() {
 // Draw player bombs
 function uiBombs() {
     for (let i = 0; i < bombs; i++) {
-        drawBomb(20 + 30*i, height - UI_PANEL_HEIGHT + 20);
+        drawBomb(20 + 30 * i, height - UI_PANEL_HEIGHT + 20);
     }
 }
 
@@ -287,7 +290,7 @@ function uiBombs() {
 function uiHealth() {
     let empty = pl.maxHp - (pl.hp - 1);
     for (let i = pl.maxHp; i >= 0; i--) {
-        drawHeart(20 + 30*i, height - UI_PANEL_HEIGHT + 60, --empty > 0);
+        drawHeart(20 + 30 * i, height - UI_PANEL_HEIGHT + 60, --empty > 0);
     }
 }
 
@@ -309,7 +312,7 @@ function uiSlowdown() {
 
     let loadPercent = (SLOWDOWN_WAIT_NEXT - nextSlowdownTime) / SLOWDOWN_WAIT_NEXT;
     let angle = 360 * loadPercent;
-    
+
     // Draw blue/green portion
     if (angle > 0) {
         if (angle === 360) {
@@ -331,10 +334,16 @@ function uiSlowdown() {
 
 // Update the score by slowly adding
 function updateScore() {
+    baseScoreTime += 1;
+    if (baseScoreTime > BASE_SCORE_UPDATE) {
+        scoreToAdd += BASE_SCORE_DUMP;
+        baseScoreTime = 0;
+    }
+
     if (scoreToAdd >= SCORE_UPDATE_SPEED) {
         scoreToAdd -= SCORE_UPDATE_SPEED;
         score += SCORE_UPDATE_SPEED * scoreMult;
-        if (scoreToAdd === 0) setScoreStyle('#ECF0F1', 'normal');
+        if (scoreToAdd === BASE_SCORE_DUMP) setScoreStyle('#ECF0F1', 'normal');
     } else {
         score += scoreToAdd * scoreMult;
         scoreToAdd = 0;
@@ -356,35 +365,34 @@ function setup() {
     angleMode(DEGREES);
     ellipseMode(RADIUS);
 
-    // Start background starfield
-    starfield = new Starfield(NUM_STARS, STARFIELD_SPEED);
-
     // jet = loadImage('../assets/jet.webp');
-    jet = loadImage('../assets/jeta.png');
-    enemyJet = loadImage('../assets/russia2.webp');
-    enemyJet1 = loadImage('../assets/russia.png');
-    bomber = loadImage('../assets/bomber.webp');
+    basicSprite = loadImage('../assets/basic.webp');
+    basicEnemySprite = loadImage('../assets/red-basic-enemy.webp');
+    bomberSprite = loadImage('../assets/red-bomber.webp');
+    ufoSprite = loadImage('../assets/red-ufo.webp');
+    eagleSprite = loadImage('../assets/red-eagle.webp');
+    botSprite = loadImage('../assets/red-bot.webp');
+    bigSprite = loadImage('../assets/red-big.webp');
     canyon = loadImage('../assets/canyon_placeholder.png')
 
     // Begin level
     resetGame();
 }
 
-let yOffset = 0;
-function drawBackground(){
+function drawBackground() {
     const scrollSpeed = 4;
     background(0); // Clear the screen
 
     // Calculate the new y-offset for the background
     yOffset = yOffset + scrollSpeed;
-    
-    const spacing = canyon.height ;
+
+    const spacing = canyon.height;
     // Wrap the y-offset if it goes beyond the image height
     if (yOffset > (spacing)) {
-      yOffset = -(spacing);
+        yOffset = -(spacing);
     }
-     
-  
+
+
     // Display the scrolling background
     image(canyon, 0, yOffset + spacing);
     image(canyon, 0, yOffset);
@@ -393,8 +401,8 @@ function drawBackground(){
 
 function draw() {
     // Draw the background and starfield
-    flashTime > 0 ? background(255) : background(starfield.bg);
-    starfield.display();
+    // TODO figure out flashtime
+    flashTime > 0 ? background(255) : background(255);
 
     drawBackground();
 

@@ -1,5 +1,5 @@
 class Bullet extends Entity {
-    constructor(x, y, angle, speed, fromPlayer) {
+    constructor(x, y, angle, speed, fromPlayer, acc) {
         super(x, y);
 
         // Display

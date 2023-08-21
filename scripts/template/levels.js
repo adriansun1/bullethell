@@ -8,14 +8,14 @@ LEVEL[0] = {
     // Boss
     boss: null,
     // Enemies
-    enemy: ['basic', 'splitter', 'bomber', 'shotgunner', 'turret'],
-    enemyWeight: [0.4, 0.2, 0.2, 0.1, 0.1],
+    enemy: ['basic', 'splitter', 'bomber', 'shotgunner','turret'],
+    enemyWeight: [0.5, 0.15, 0.15,0.1,0.1],
     spawnCount: 90,
     spawnTimeMax: 100,
     spawnTimeMin: 20,
     // Items
     dropChance: 0.3,
-    item: ['points', 'points2x', 'dualFire', 'health', 'bomb'],
+    item: ['points', 'points2x', 'dualFire', 'tripleFire', 'health'],
     itemWeight: [0.49, 0.29, 0.02, 0.18, 0.02]
 };
 
@@ -27,14 +27,14 @@ LEVEL[1] = {
     // Boss
     boss: 'boss1',
     // Enemies
-    enemy: ['basic', 'splitter', 'bomber', 'shotgunner', 'turret'],
+    enemy: ['basic', 'splitter', 'bomber', 'shotgunner','turret'],
     enemyWeight: [0.5, 0.15, 0.15,0.1,0.1],
     spawnCount: 80,
     spawnTimeMax: 100,
     spawnTimeMin: 20,
     // Items
     dropChance: 0.3,
-    item: ['points', 'points2x', 'dualFire', 'health', 'bomb'],
+    item: ['points', 'points2x', 'dualFire', 'health'],
     itemWeight: [0.45, 0.25, 0.1, 0.18, 0.02]
 };
 

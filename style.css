@@ -30,6 +30,7 @@ body {
     color: var(--fg);
     display: flex;
     flex-direction: row;
+    justify-content: center;
     font-family: 'Source Code Pro', monospace;
     line-height: 1.6;
     min-height: 100vh;
@@ -43,11 +44,22 @@ body {
 
 #sidebar {
     position:absolute;
+    right:0;
+    bottom:0;
+    margin:10px;
+    text-align: right;
     display: flex;
     flex-direction: column;
     max-height: 100vh;
     max-width: 260px;
     overflow-y: scroll;
+}
+
+.container{
+    position:relative;
+    display:flex;
+    justify-content: center;
+
 }
 
 header, main {
