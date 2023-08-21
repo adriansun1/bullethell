@@ -17,7 +17,7 @@ ITEM.dualFire = {
     color: '#F1C40F',
     // Methods
     canPickUp(pl) {
-        pl.weapon !== 'tripleFire';
+        return pl.weapon !== 'tripleFire';
     },
     onPickup(pl) {
         pl.setWeapon(10, 'dualFire');
@@ -28,7 +28,7 @@ ITEM.tripleFire = {
     // Display
     color: '#B71C0C',
     // Methods
-    canPickUp(pl) { },
+    canPickUp(pl) { return true },
     onPickup(pl) {
         pl.setWeapon(10, 'tripleFire');
     }
