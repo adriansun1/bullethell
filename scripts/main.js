@@ -12,7 +12,7 @@ const PLAYER_FIRE_RATE = 12;
 const PLAYER_HP = 2;
 const PLAYER_RADIUS = 6;
 const PLAYER_SPEED = 6;
-const SCORE_UPDATE_SPEED = 4;
+const SCORE_UPDATE_SPEED = 8;
 const BASE_SCORE_UPDATE = 30;
 const BASE_SCORE_DUMP = 25;
 const SLOWDOWN_ALPHA = 95;
@@ -72,6 +72,7 @@ let scoreMult;
 let scoreToAdd;
 let toSpawn;
 let toSpawnBoss;
+let weaponTimeout;
 
 // Powerups
 let bombs;
@@ -365,7 +366,7 @@ function setup() {
     angleMode(DEGREES);
     ellipseMode(RADIUS);
 
-    // jet = loadImage('../assets/jet.webp');
+    // Load sprites
     basicSprite = loadImage('../assets/basic.webp');
     basicEnemySprite = loadImage('../assets/red-basic-enemy.webp');
     bomberSprite = loadImage('../assets/red-bomber.webp');
@@ -373,14 +374,14 @@ function setup() {
     eagleSprite = loadImage('../assets/red-eagle.webp');
     botSprite = loadImage('../assets/red-bot.webp');
     bigSprite = loadImage('../assets/red-big.webp');
-    canyon = loadImage('../assets/canyon_placeholder.png')
+    canyon = loadImage('../assets/canyon.webp')
 
     // Begin level
     resetGame();
 }
 
 function drawBackground() {
-    const scrollSpeed = 4;
+    const scrollSpeed = 3;
     background(0); // Clear the screen
 
     // Calculate the new y-offset for the background

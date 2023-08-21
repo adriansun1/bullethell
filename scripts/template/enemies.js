@@ -13,7 +13,7 @@ ENEMY.basic = {
         if (random() < 0.02) this.fire();
     },
     attack() {
-        emitBullets(this.pos.x, this.pos.y, 90, [0], 4, 4, BULLET.basic);
+        emitBullets(this.pos.x, this.pos.y, 90, [0], 5, 5, BULLET.basic);
     }
 };
 

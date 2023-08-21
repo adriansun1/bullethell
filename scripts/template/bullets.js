@@ -4,7 +4,7 @@ BULLET.basic = {};
 
 BULLET.bomb = {
     // Display
-    color: '#E67E22',
+    color: '#00FFFF',
     model: MODEL.bullet.egg,
     // Physics
     gravY: 0.1,

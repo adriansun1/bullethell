@@ -1,11 +1,14 @@
 const ITEM = {};
 
-ITEM.bomb = {
+ITEM.rapidFire = {
     // Display
-    color: '#007C21',
+    color: 'purple',
     // Methods
+    canPickUp(pl) {
+        return pl.weapon !== 'dualFire' && pl.weapon !== 'tripleFire';
+    },
     onPickup(pl) {
-        bombs++;
+        pl.setWeapon(5, 'basic');
     }
 };
 
@@ -14,11 +17,10 @@ ITEM.dualFire = {
     color: '#F1C40F',
     // Methods
     canPickUp(pl) {
-        return pl.weapon !== 'dualFire' && pl.weapon !== 'tripleFire';
+        pl.weapon !== 'tripleFire';
     },
     onPickup(pl) {
-        pl.fireRate = 10;
-        pl.weapon = 'dualFire';
+        pl.setWeapon(10, 'dualFire');
     }
 };
 
@@ -26,12 +28,9 @@ ITEM.tripleFire = {
     // Display
     color: '#B71C0C',
     // Methods
-    canPickUp(pl) {
-        return pl.weapon !== 'tripleFire';
-    },
+    canPickUp(pl) { },
     onPickup(pl) {
-        pl.fireRate = 8;
-        pl.weapon = 'tripleFire';
+        pl.setWeapon(10, 'tripleFire');
     }
 };
 

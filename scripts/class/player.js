@@ -4,6 +4,7 @@ class Player extends Ship {
 
         // Cooldowns
         this.invulnTime = 0;
+        this.weaponTimeout;
 
         // Display
         this.color = '#19B5FE';
@@ -20,6 +21,16 @@ class Player extends Ship {
         this.hp = PLAYER_HP;
         this.speed = PLAYER_SPEED;
         this.weapon = 'basic';
+    }
+
+    setWeapon(fireRate, weapon, ms = 10000) {
+        clearTimeout(weaponTimeout);
+        pl.fireRate = fireRate;
+        pl.weapon = weapon;
+        weaponTimeout = setTimeout(() => {
+            this.fireRate = PLAYER_FIRE_RATE;
+            this.weapon = 'basic';
+        }, ms)
     }
 
     // All operations to do per tick

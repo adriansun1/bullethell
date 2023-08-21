@@ -92,7 +92,7 @@ MODEL.ship.basic = function (direction, isPlayer) {
 MODEL.ship.bomber = function (isPlayer) {
     push()
     translate(this.pos.x, this.pos.y);
-    image(botSprite, -25, -25, 50, 50);
+    image(botSprite, -20, -20, 40, 40);
     pop()
 };
 
