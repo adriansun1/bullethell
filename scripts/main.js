@@ -359,7 +359,7 @@ function setup() {
     let maxSize = MAP_HEIGHT + UI_PANEL_HEIGHT + 2;
     let h = windowHeight > maxSize ? maxSize : windowHeight;
     MAP_HEIGHT = h - UI_PANEL_HEIGHT - 2;
-    let c = createCanvas(1000, h - 2);
+    let c = createCanvas(900, h - 2);
     c.parent('game');
 
     // Configure p5.js
